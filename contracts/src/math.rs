@@ -76,6 +76,24 @@ pub fn calculate_withdrawable(
     total_unlocked - withdrawn_amount
 }
 
+/// Fast fee calculation using bit operations where possible
+/// For fee_bps (basis points), we divide by 10000
+/// Inlined for performance
+#[inline(always)]
+pub fn calculate_fee(amount: i128, fee_bps: u32) -> i128 {
+    if fee_bps == 0 {
+        return 0;
+    }
+    (amount * fee_bps as i128) / 10000
+}
+
+/// Check if a value is a power of 2 (useful for optimization checks)
+#[inline(always)]
+#[allow(dead_code)]
+pub fn is_power_of_two(n: u32) -> bool {
+    n != 0 && (n & (n - 1)) == 0
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
