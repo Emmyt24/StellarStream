@@ -8,7 +8,7 @@
  */
 
 import { SorobanRpc, scValToNative } from "@stellar/stellar-sdk";
-import { PrismaClient } from "../generated/client/index.js";
+import { PrismaClient, StreamStatus } from "../generated/client/index.js";
 import {
   getLastLedgerSequence,
   saveLastLedgerSequence,
@@ -190,11 +190,11 @@ export class DualVersionIngestor {
 
 // ── Utility ───────────────────────────────────────────────────────────────────
 
-function actionToStatus(action: string): string {
+function actionToStatus(action: string): StreamStatus {
   switch (action) {
-    case "cancel":  return "CANCELED";
-    case "pause":   return "PAUSED";
-    case "resume":  return "ACTIVE";
-    default:        return "ACTIVE";
+    case "cancel":  return StreamStatus.CANCELED;
+    case "pause":   return StreamStatus.PAUSED;
+    case "resume":  return StreamStatus.ACTIVE;
+    default:        return StreamStatus.ACTIVE;
   }
 }
